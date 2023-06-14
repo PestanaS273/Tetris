@@ -1,13 +1,39 @@
-import pygame
-import random
+import pygame as pg
 import sys
-
-class Game:
-    def __int__(self):
-        pygame.init()
-        pygame.mixer.init()
+from tetris import Tetris
+from settings import *
 
 
-# if __name__ == '__main__':
-#     game = Game()
-#     game.run()
+class App:
+    def __init__(self):
+        pg.init()
+        pg.display.set_caption('Tetris')
+        self.screen = pg.display.set_mode(Field_Resolution)
+        self.clock = pg.time.Clock()
+        self.tetris = Tetris(self)
+
+    def update(self):
+        self.tetris.update()
+        self.clock.tick(FPS)
+
+    def draw(self):
+        self.screen.fill(color=Field_Color)
+        self.tetris.draw()
+        pg.display.flip()
+
+    def check_events(self):
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                pg.quit()
+                sys.exit()
+    def run(self):
+        while True:
+            self.check_events()
+            self.update()
+            self.draw()
+
+if __name__ == '__main__':
+    app = App()
+    app.run()
+
+
