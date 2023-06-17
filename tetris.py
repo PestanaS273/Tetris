@@ -1,6 +1,5 @@
 from settings import *
 from tetromino import Tetromino
-import math
 
 class Tetris:
     def __init__(self, app):
@@ -9,10 +8,10 @@ class Tetris:
         self.tetromino = Tetromino(self)
 
     def grid(self):
-        for x in range(Field_Width):
-            for y in range(Field_Height):
+        for x in range(FIELD_WIDTH):
+            for y in range(FIELD_HEIGHT):
                 pg.draw.rect(self.app.screen, 'black',
-                             (x * Tile_Size, y * Tile_Size, Tile_Size, Tile_Size), 1)
+                             (x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE), 1)
 
 
 

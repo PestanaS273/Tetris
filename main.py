@@ -8,7 +8,7 @@ class App:
     def __init__(self):
         pg.init()
         pg.display.set_caption('Tetris')
-        self.screen = pg.display.set_mode(Field_Resolution)
+        self.screen = pg.display.set_mode(FIELD_RESOLUTION)
         self.clock = pg.time.Clock()
         self.tetris = Tetris(self)
 
@@ -17,7 +17,7 @@ class App:
         self.clock.tick(FPS)
 
     def draw(self):
-        self.screen.fill(color=Field_Color)
+        self.screen.fill(color=FIELD_COLOR)
         self.tetris.draw()
         pg.display.flip()
 

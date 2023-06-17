@@ -1,16 +1,27 @@
 import pygame as pg
+import math
+
+vec = pg.math.Vector2
 
 FPS = 60
 
-Field_Color = (51,51,51)
+FIELD_COLOR = (51,51,51)
 
-Tile_Size = 50
+TILE_SIZE = 50
 
-Field_Size = Field_Height, Field_Width = 24, 10
+FIELD_SIZE = FIELD_WIDTH, FIELD_HEIGHT = 10, 20
 
-Field_Resolution = Field_Width * Tile_Size, Field_Height * Tile_Size
+FIELD_RESOLUTION = FIELD_WIDTH * TILE_SIZE, FIELD_HEIGHT * TILE_SIZE
 
-Tetrominoes = {
+INIT_OFFSET = vec(FIELD_WIDTH // 2 -1, 0)
+
+MOVE_DIRECTIONS = {
+    'right' : vec(1, 0),
+    'left' : vec(-1, 0),
+    'down' : vec(0, 1)
+}
+
+TETROMINOES = {
     'T' : [(0, 0), (-1, 0), (0, 1), (1, 0)],
     'I' : [(0, 0), (0, 1), (0, 2), (0, -1)],
     'L' : [(0, 0), (0, 1), (0, 2), (1, 0)],
