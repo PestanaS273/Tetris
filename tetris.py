@@ -24,6 +24,8 @@ class Tetris:
             self.tetromino.move(direction='right')
         elif pressed_arrows == pg.K_DOWN:
             self.tetromino.move(direction='down')
+        elif pressed_arrows == pg.K_UP:
+            self.tetromino.rotation()
 
     def check_reach_bottom(self):
         #create new tetromino is bottom is reached

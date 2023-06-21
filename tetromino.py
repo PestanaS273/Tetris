@@ -7,10 +7,11 @@ class Block(pg.sprite.Sprite):
     def __init__(self, tetromino, position):
         self.tetromino = tetromino
         self.position = vec(position) + INIT_OFFSET
+        self.display = True
 
         super().__init__(tetromino.tetris.sprite_group)
         self.image = pg.Surface([TILE_SIZE, TILE_SIZE])
-        self.image.fill('cyan')
+        pg.draw.rect(self.image, 'cyan', (1,1,TILE_SIZE,TILE_SIZE), border_radius= 4)
         self.rect = self.image.get_rect()
 
     def set_rectangle_position(self):
@@ -48,13 +49,14 @@ class Tetromino:
         self.blocks = [Block(self, position) for position in TETROMINOES[self.shape]]
         self.bottom = False
 
-    def rotaion(self):
+    def rotation(self):
         pivot = self.blocks[0].position
         #calculate the new block position after rotation
-        block_rotated = [block.rotate(pivot) for block in self.blocks]
+        block_rotated = [block.rotation(pivot) for block in self.blocks]
 
         if not self.collision(block_rotated):
-            for i, block
+            for i, block in enumerate(self.blocks):
+                block.position = block_rotated[i]
 
     
     def collision(self, block_position):
