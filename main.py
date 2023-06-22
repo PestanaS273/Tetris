@@ -2,15 +2,17 @@ import pygame as pg
 import sys
 from tetris import Tetris
 from settings import *
+import pathlib
 
 
 class App:
     def __init__(self):
         pg.init()
         pg.display.set_caption('Tetris')
-        self.screen = pg.display.set_mode(FIELD_RESOLUTION)
+        self.screen = pg.display.set_mode(WINDOW_RESOLUTION)
         self.clock = pg.time.Clock()
         self.set_timer()
+        self.images = self.load_images()
         self.tetris = Tetris(self)
 
 
@@ -25,7 +27,8 @@ class App:
         self.clock.tick(FPS)
 
     def draw(self):
-        self.screen.fill(color=FIELD_COLOR)
+        self.screen.fill(color=INTERFACE_COLOR)
+        self.screen.fill(color=FIELD_COLOR, rect=(0,0, *FIELD_RESOLUTION))
         self.tetris.draw()
         pg.display.flip()
 
@@ -47,6 +50,23 @@ class App:
             self.check_events()
             self.update()
             self.draw()
+
+    # def laod_images(self):
+    #     files = [file for file in pathlib.Path(SPRITE_PATH).rglob('*.png') if file.is_file()]
+    #     images = [pg.image.load(file).convert_alpha() for file in files]
+    #     images = [pg.transform.scale(image, (TILE_SIZE, TILE_SIZE)) for image in images]
+    #     return images
+    def load_images(self):
+        files = sorted(pathlib.Path(SPRITE_PATH).rglob('*.png'))
+        images = {}
+        for file in files:
+            image = pg.image.load(file).convert_alpha()
+            image = pg.transform.scale(image, (TILE_SIZE, TILE_SIZE))
+            piece_name = file.stem 
+            images[piece_name] = image
+        return images
+
+
 
 if __name__ == '__main__':
     app = App()

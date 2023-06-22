@@ -4,14 +4,16 @@ import random
 
 
 class Block(pg.sprite.Sprite):
-    def __init__(self, tetromino, position):
+    def __init__(self, tetromino, position, image):
         self.tetromino = tetromino
         self.position = vec(position) + INIT_OFFSET
-        self.display = True
+        self.active = True
+        self.image = image
+        
 
         super().__init__(tetromino.tetris.sprite_group)
-        self.image = pg.Surface([TILE_SIZE, TILE_SIZE])
-        pg.draw.rect(self.image, 'cyan', (1,1,TILE_SIZE,TILE_SIZE), border_radius= 4)
+        # self.image = pg.Surface([TILE_SIZE, TILE_SIZE])
+        # pg.draw.rect(self.image, 'cyan', (1,1,TILE_SIZE,TILE_SIZE), border_radius= 4)
         self.rect = self.image.get_rect()
 
     def set_rectangle_position(self):
@@ -23,9 +25,15 @@ class Block(pg.sprite.Sprite):
         first = self.position - pivot
         second = first.rotate(90)
         return second + pivot
+    
+    #check if the block is active, if not remove from the Sprite group
+    def is_active(self):
+        if not self.active:
+            self.kill()
 
 
     def update(self):
+        self.is_active()
         self.set_rectangle_position()
 
     #limits
@@ -46,8 +54,9 @@ class Tetromino:
     def __init__(self, tetris):
         self.tetris = tetris
         self.shape = random.choice(list(TETROMINOES.keys()))
-        self.blocks = [Block(self, position) for position in TETROMINOES[self.shape]]
+        self.blocks = [Block(self, position, self.tetris.app.images[self.shape]) for position in TETROMINOES[self.shape]]
         self.bottom = False
+
 
     def rotation(self):
         pivot = self.blocks[0].position
@@ -79,3 +88,4 @@ class Tetromino:
     def update(self):
 
         self.move(direction='down')
+
