@@ -14,6 +14,8 @@ class App:
         self.set_timer()
         self.images = self.load_images()
         self.tetris = Tetris(self)
+        pg.mixer.music.load('assets/music_and_sounds/Original-Tetris-theme-Tetris-Soundtrack-.mp3')
+        pg.mixer.music.play(-1)
 
 
     #Set animation time

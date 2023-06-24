@@ -1,3 +1,4 @@
+import pygame as pg
 from settings import *
 from tetromino import Tetromino
 
@@ -17,14 +18,19 @@ class Tetris:
 
                 if self.field_array[current_row][column]:
                     self.field_array[row][column].position = vec(column, current_row)
-            
+                    
             if sum(map(bool, self.field_array[current_row])) < FIELD_WIDTH:
                 row -= 1
+            
             else: 
                 for column in range(FIELD_WIDTH):
                     self.field_array[row][column].active = False
-                    self.field_array[row][column] = 0
-
+                    self.field_array[row][column] = 0               
+                pg.mixer.Sound('assets/music_and_sounds/clear.wav').play()
+                break
+        
+       
+            
 
     #set blocs occuped in the field by tetrominoes
     def set_tetrominoes_in_array(self):
