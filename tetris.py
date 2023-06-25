@@ -21,6 +21,8 @@ class Text:
                             text=f'{self.app.tetris.score}', fgcolor='white',
                             size=TILE_SIZE * 1.8)
         
+        
+        
         # self.score_surface = self.title_font.render("Score:", True, (255, 255, 255))
         # self.screen.blit(self.score_surface, (500, 300, 1, 1))
         # self.score_numbers_surface = self.title_font.render(f'{self.app.tetris.score}', True, (255, 255, 255))
@@ -86,14 +88,17 @@ class Tetris:
         return [[0 for x in range(FIELD_WIDTH)] for y in range(FIELD_HEIGHT)]
 
     def controls(self, pressed_arrows):
-        if pressed_arrows == pg.K_LEFT:
+        if pressed_arrows == pg.K_LEFT :
             self.tetromino.move(direction='left')
-        elif pressed_arrows == pg.K_RIGHT:
+        elif pressed_arrows == pg.K_RIGHT :
             self.tetromino.move(direction='right')
         elif pressed_arrows == pg.K_DOWN:
             self.tetromino.move(direction='down')
-        elif pressed_arrows == pg.K_UP:
+        elif pressed_arrows == pg.K_UP :
             self.tetromino.rotation()
+        # elif pressed_arrows == pg.KEYDOWN and self.game_over() == True:
+        #     self.__init__(self.app)
+        
 
     def check_reach_bottom(self):
         #create new tetromino is bottom is reached
@@ -115,8 +120,9 @@ class Tetris:
 
     def game_over(self):
         if self.tetromino.blocks[0].position.y == INIT_OFFSET[1]:
-            pg.time.wait(300)
+            pg.time.wait(3000)
             return True
+            
 
     def update(self):
         if self.app.anim_trigger == True:
