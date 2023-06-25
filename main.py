@@ -18,7 +18,7 @@ class App:
         self.tetris = Tetris(self)
         pg.mixer.music.load('assets/music_and_sounds/Original-Tetris-theme-Tetris-Soundtrack-.mp3')
         pg.mixer.music.play(-1)
-        pg.mixer.music.set_volume(0.4)
+        pg.mixer.music.set_volume(0.2)
         self.text = Text(self)
 
 

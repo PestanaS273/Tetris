@@ -20,8 +20,10 @@ class Text:
         self.font.render_to(self.app.screen, (FIELD_WIDTH * 48, FIELD_HEIGHT * 20),
                             text=f'{self.app.tetris.score}', fgcolor='white',
                             size=TILE_SIZE * 1.8)
+    
+            
         
-        
+
         
         # self.score_surface = self.title_font.render("Score:", True, (255, 255, 255))
         # self.screen.blit(self.score_surface, (500, 300, 1, 1))
@@ -29,6 +31,7 @@ class Text:
         # self.screen.blit(self.score_numbers_surface, (500, 350, 1, 1))
 
 class Tetris:
+
     def __init__(self, app):
         self.app = app
         self.field_array = self.set_field_array()
@@ -45,6 +48,8 @@ class Tetris:
             3: 200,
             4: 500,
         }
+        self.font = ft.Font(None, 40)
+        self.app = app
 
     def get_score(self):
         self.score += self.points_per_lines[self.full_lines]
@@ -67,8 +72,7 @@ class Tetris:
                 for column in range(FIELD_WIDTH):
                     self.field_array[row][column].active = False
                     self.field_array[row][column] = 0               
-                    sound_effect = pg.mixer.Sound('assets/music_and_sounds/clear.wav').play()
-                    sound_effect.set_volume(0.3)
+                    pg.mixer.Sound('assets/music_and_sounds/clear.wav').play()
                 self.full_lines += 1
 
             
@@ -119,8 +123,12 @@ class Tetris:
 
     def game_over(self):
         if self.tetromino.blocks[0].position.y == INIT_OFFSET[1]:
-            pg.time.wait(3000)
-            return True
+            # self.font.render_to(self.app.screen, (FIELD_WIDTH * 40, FIELD_HEIGHT * 40),
+            #                                 text='GAME OVER FDP', fgcolor='white',
+            #                                 size=TILE_SIZE * 2, bgcolor = 'black')
+            event = pg.event.wait()
+            if event.type == pg.KEYDOWN:
+                return True
             
 
     def update(self):
