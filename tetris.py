@@ -13,11 +13,14 @@ class Text:
         #Text
         # self.next_surface = self.title_font.render("Next", True, (255, 255, 255))
         # self.screen.blit(self.next_surface, (500, 18, 1, 1))
-        self.font.render_to(self.app.screen, (FIELD_WIDTH * 0.595, FIELD_HEIGHT * 0.02),
+        self.font.render_to(self.app.screen, (FIELD_WIDTH * 46, FIELD_HEIGHT * 0.6),
                             text='Next', fgcolor='white',
                             size=TILE_SIZE * 1.65, bgcolor = 'black')
         # self.font.render("Next", True, (255, 255, 255))
-
+        self.font.render_to(self.app.screen, (FIELD_WIDTH * 48, FIELD_HEIGHT * 20),
+                            text=f'{self.app.tetris.score}', fgcolor='white',
+                            size=TILE_SIZE * 1.8)
+        
         # self.score_surface = self.title_font.render("Score:", True, (255, 255, 255))
         # self.screen.blit(self.score_surface, (500, 300, 1, 1))
         # self.score_numbers_surface = self.title_font.render(f'{self.app.tetris.score}', True, (255, 255, 255))
@@ -36,6 +39,8 @@ class Tetris:
         self.points_per_lines = {
             0: 0,
             1: 100,
+            2: 100,
+            3: 200,
             4: 500,
         }
 
@@ -61,7 +66,10 @@ class Tetris:
                     self.field_array[row][column].active = False
                     self.field_array[row][column] = 0               
                     pg.mixer.Sound('assets/music_and_sounds/clear.wav').play()
+                
                 self.full_lines += 1
+
+            
                 
         
        
@@ -105,7 +113,7 @@ class Tetris:
                              (x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE), 1)
 
     def game_over(self):
-        if self.tetromino.blocks[0].position == INIT_OFFSET[1]:
+        if self.tetromino.blocks[0].position.y == INIT_OFFSET[1]:
             pg.time.wait(300)
             return True
 
