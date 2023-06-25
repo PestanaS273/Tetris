@@ -2,6 +2,7 @@ import pygame as pg
 from settings import *
 from tetromino import Tetromino
 import pygame.freetype as ft
+from Data.database_handler import database_handler
 
 class Text:
     def __init__(self, app):
@@ -31,6 +32,8 @@ class Text:
         # self.screen.blit(self.score_numbers_surface, (500, 350, 1, 1))
 
 class Tetris:
+
+    db_handler = database_handler("database.db")
 
     def __init__(self, app):
         self.app = app
@@ -130,6 +133,7 @@ class Tetris:
             # self.font.render_to(self.app.screen, (FIELD_WIDTH * 40, FIELD_HEIGHT * 40),
             #                                 text='GAME OVER FDP', fgcolor='white',
             #                                 size=TILE_SIZE * 2, bgcolor = 'black')
+            #Tetris.db_handler.insertScore(self.score)
             event = pg.event.wait()
             if event.type == pg.KEYDOWN:
                 return True
