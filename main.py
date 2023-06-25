@@ -1,11 +1,13 @@
 import pygame as pg
 import sys
-from tetris import Tetris
+from tetris import Tetris, Text
 from settings import *
 import pathlib
 
+    
 
 class App:
+
     def __init__(self):
         pg.init()
         pg.display.set_caption('Tetris')
@@ -16,6 +18,7 @@ class App:
         self.tetris = Tetris(self)
         pg.mixer.music.load('assets/music_and_sounds/Original-Tetris-theme-Tetris-Soundtrack-.mp3')
         pg.mixer.music.play(-1)
+        self.text = Text(self)
 
 
     #Set animation time
@@ -29,10 +32,19 @@ class App:
         self.clock.tick(FPS)
 
     def draw(self):
+        
+        #Interface
         self.screen.fill(color=INTERFACE_COLOR)
         self.screen.fill(color=FIELD_COLOR, rect=(0,0, *FIELD_RESOLUTION))
+        self.screen.fill(color=NEXT_TETROMINO_COLOR, rect=(450, 75, 170, 170))
+
         self.tetris.draw()
+        self.text.draw()
         pg.display.flip()
+
+
+
+
 
     def check_events(self):
         self.anim_trigger = False

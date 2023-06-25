@@ -9,15 +9,15 @@ class Block(pg.sprite.Sprite):
         self.position = vec(position) + INIT_OFFSET
         self.active = True
         self.image = image
+        self.next_postion = vec(position) + NEXT_TETROMINO_POSITION
         
 
         super().__init__(tetromino.tetris.sprite_group)
-        # self.image = pg.Surface([TILE_SIZE, TILE_SIZE])
-        # pg.draw.rect(self.image, 'cyan', (1,1,TILE_SIZE,TILE_SIZE), border_radius= 4)
         self.rect = self.image.get_rect()
 
     def set_rectangle_position(self):
-        self.rect.topleft = self.position * TILE_SIZE
+        position = [self.next_postion, self.position][self.tetromino.current]
+        self.rect.topleft = position * TILE_SIZE
     
 
     def rotation(self, pivot):
@@ -51,11 +51,12 @@ class Block(pg.sprite.Sprite):
 
 
 class Tetromino:
-    def __init__(self, tetris):
+    def __init__(self, tetris, current=True):
         self.tetris = tetris
         self.shape = random.choice(list(TETROMINOES.keys()))
         self.blocks = [Block(self, position, self.tetris.app.images[self.shape]) for position in TETROMINOES[self.shape]]
         self.bottom = False
+        self.current = current
 
 
     def rotation(self):

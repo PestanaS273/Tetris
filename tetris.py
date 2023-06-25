@@ -1,6 +1,27 @@
 import pygame as pg
 from settings import *
 from tetromino import Tetromino
+import pygame.freetype as ft
+
+class Text:
+    def __init__(self, app):
+        self.font = ft.Font(None, 40)
+        self.app = app
+    
+    
+    def draw(self):
+        #Text
+        # self.next_surface = self.title_font.render("Next", True, (255, 255, 255))
+        # self.screen.blit(self.next_surface, (500, 18, 1, 1))
+        self.font.render_to(self.app.screen, (FIELD_WIDTH * 0.595, FIELD_HEIGHT * 0.02),
+                            text='Next', fgcolor='white',
+                            size=TILE_SIZE * 1.65, bgcolor = 'black')
+        # self.font.render("Next", True, (255, 255, 255))
+
+        # self.score_surface = self.title_font.render("Score:", True, (255, 255, 255))
+        # self.screen.blit(self.score_surface, (500, 300, 1, 1))
+        # self.score_numbers_surface = self.title_font.render(f'{self.app.tetris.score}', True, (255, 255, 255))
+        # self.screen.blit(self.score_numbers_surface, (500, 350, 1, 1))
 
 class Tetris:
     def __init__(self, app):
@@ -8,6 +29,19 @@ class Tetris:
         self.field_array = self.set_field_array()
         self.sprite_group = pg.sprite.Group()
         self.tetromino = Tetromino(self)
+        self.next_tetromino = Tetromino(self, current=False)
+
+        self.score = 0
+        self.full_lines = 0
+        self.points_per_lines = {
+            0: 0,
+            1: 100,
+            4: 500,
+        }
+
+    def get_score(self):
+        self.score += self.points_per_lines[self.full_lines]
+        self.full_lines = 0
 
     def check_full_lines(self):
         #start at bottom
@@ -26,8 +60,9 @@ class Tetris:
                 for column in range(FIELD_WIDTH):
                     self.field_array[row][column].active = False
                     self.field_array[row][column] = 0               
-                pg.mixer.Sound('assets/music_and_sounds/clear.wav').play()
-                break
+                    pg.mixer.Sound('assets/music_and_sounds/clear.wav').play()
+                self.full_lines += 1
+                
         
        
             
@@ -54,8 +89,13 @@ class Tetris:
     def check_reach_bottom(self):
         #create new tetromino is bottom is reached
         if self.tetromino.bottom:
-            self.set_tetrominoes_in_array()
-            self.tetromino = Tetromino(self)
+            if self.game_over():
+                self.__init__(self.app)
+            else:
+                self.set_tetrominoes_in_array()
+                self.next_tetromino.current = True
+                self.tetromino = self.next_tetromino
+                self.next_tetromino = Tetromino(self, current=False)
         
 
     def grid(self):
@@ -64,13 +104,17 @@ class Tetris:
                 pg.draw.rect(self.app.screen, 'black',
                              (x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE), 1)
 
-
+    def game_over(self):
+        if self.tetromino.blocks[0].position == INIT_OFFSET[1]:
+            pg.time.wait(300)
+            return True
 
     def update(self):
         if self.app.anim_trigger == True:
             self.tetromino.update()
             self.check_reach_bottom()
             self.check_full_lines()
+            self.get_score()
         self.sprite_group.update()
 
     def draw(self):
