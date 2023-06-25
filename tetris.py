@@ -65,8 +65,9 @@ class Tetris:
                 for column in range(FIELD_WIDTH):
                     self.field_array[row][column].active = False
                     self.field_array[row][column] = 0               
-                    sound_effect = pg.mixer.Sound('assets/music_and_sounds/clear.wav').play()
-                    sound_effect.set_volume(0.3)
+                    sound_effect = pg.mixer.Sound('assets/music_and_sounds/clear.wav')
+                    sound_effect.play()
+                    sound_effect.set_volume(0.2)
                 self.full_lines += 1
 
             
