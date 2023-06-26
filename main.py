@@ -265,7 +265,7 @@ class App:
             elif not self.over:
                 self.update()
                 self.draw()
-                if self.mode == 3 and pg.time.get_ticks() - self.start_time >= 3 * 60 * 1000: 
+                if self.mode == 3 and pg.time.get_ticks() - self.start_time >= 2 * 60 * 1000: 
                     self.game_over()
                 
             else: 
