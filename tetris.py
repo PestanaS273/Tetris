@@ -41,8 +41,32 @@ class Text:
         self.font.render_to(self.app.screen, (FIELD_WIDTH * 43, FIELD_HEIGHT * 35),
                             text=f'Level: {self.app.tetris.level}', fgcolor='white',
                             size=TILE_SIZE * 1)
-
+                            
+        if self.app.mode == 3:
+            elapsed_time = pg.time.get_ticks() - self.app.start_time
+            minutes = (2 * 60 * 1000 - elapsed_time) // 60000
+            seconds = ((2 * 60 * 1000 - elapsed_time) % 60000) // 1000
+            time_string = f"{minutes}:{seconds if seconds >= 10 else '0'+str(seconds)}"
+            
+            self.font.render_to(self.app.screen, (FIELD_WIDTH * 40, FIELD_HEIGHT * 25),
+                                text="Time left: " + time_string, fgcolor='white',
+                                size=TILE_SIZE * 0.70, bgcolor=(25, 7, 118))
+                        
         
+
+    # def draw_time(self):
+    #     if self.app.mode == 3:
+    #         elapsed_time = pg.time.get_ticks() - self.app.start_time
+    #         remaining_time = max(0, 2*60*1000 - elapsed_time)  # Time remaining in milliseconds
+    #         remaining_time_sec = remaining_time // 1000  # Convert to seconds
+    #         minutes = remaining_time_sec // 60
+    #         seconds = remaining_time_sec % 60
+
+    #         time_str = f'Time left: {minutes:02}:{seconds:02}'
+
+    #         self.font.render_to(self.app.screen, (FIELD_WIDTH * 40, FIELD_HEIGHT * 40),
+    #                             text=time_str, fgcolor='white',
+    #                             size=TILE_SIZE * 2)
 
 
     def set_font_size(self, size):
@@ -76,6 +100,7 @@ class Tetris:
         self.over = False
         self.level = 0
         self.speed = ANIMATION_TIME
+        self.mode = self.app.mode
 
     def get_score(self):
         self.score += self.points_per_lines[self.full_lines]
@@ -124,14 +149,23 @@ class Tetris:
     def controls(self, pressed_arrows):
         if pressed_arrows == pg.K_LEFT :
             self.tetromino.move(direction='left')
+        
+        # elif self.mode == 2 and pressed_arrows == pg.K_UP:
+        #     return
+
         elif pressed_arrows == pg.K_RIGHT :
             self.tetromino.move(direction='right')
         elif pressed_arrows == pg.K_DOWN:
             self.tetromino.move(direction='down')
         elif pressed_arrows == pg.K_UP :
-            self.tetromino.rotation()
+            if self.app.mode == 2:
+                return
+            else:
+                self.tetromino.rotation()
         elif pressed_arrows == pg.K_ESCAPE:
             self.app.game_paused()
+        
+
         
         
 
