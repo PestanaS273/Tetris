@@ -3,7 +3,7 @@ import sys
 from tetris import Tetris, Text
 from settings import *
 import pathlib
-
+from Data.database_handler import database_handler
     
 
 class App:
