@@ -13,5 +13,11 @@ class database_handler:
         cursor.close()
         self.conn.commit()
 
-        #self.conn.execute("INSERT INTO Score (score) VALUES (?)", (score))
-        #self.conn.commit()
+
+    def getHighScore(self):
+        cursor = self.conn.cursor()
+        query = f"SELECT id_score, Max(score) as score FROM Score;"
+        cursor.execute(query)
+        row = cursor.fetchone()
+        cursor.close()
+        return str(row["score"])
