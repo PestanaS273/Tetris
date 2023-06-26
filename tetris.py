@@ -8,6 +8,7 @@ class Text:
     def __init__(self, app):
         self.font = ft.Font(FONT_PATH)
         self.app = app
+
     
     
     def draw(self):
@@ -19,13 +20,28 @@ class Text:
 
 
         # self.font.render("Next", True, (255, 255, 255))
-        self.font.render_to(self.app.screen, (FIELD_WIDTH * 48, FIELD_HEIGHT * 20),
+
+        self.font.render_to(self.app.screen, (FIELD_WIDTH * 42, FIELD_HEIGHT * 15),
+                            text='Score', fgcolor='white',
+                            size=TILE_SIZE * 1.65, bgcolor = 'black')
+        
+        self.font.render_to(self.app.screen, (FIELD_WIDTH * 50, FIELD_HEIGHT * 20),
                             text=f'{self.app.tetris.score}', fgcolor='white',
                             size=TILE_SIZE * 1.8)
         
-        self.font.render_to(self.app.screen, (FIELD_WIDTH* 60, FIELD_HEIGHT* 20),
+
+        self.font.render_to(self.app.screen, (FIELD_WIDTH * 40, FIELD_HEIGHT * 28),
+                            text='Highest Score', fgcolor='white',
+                            size=TILE_SIZE * 0.80, bgcolor = 'black')
+        
+        self.font.render_to(self.app.screen, (FIELD_WIDTH* 48, FIELD_HEIGHT* 30),
                             text=Tetris.db_handler.getHighScore(), fgcolor='white',
-                            size=TILE_SIZE * 1.1, bgcolor=(0,0,0))
+                            size=TILE_SIZE * 1.1)
+        
+        self.font.render_to(self.app.screen, (FIELD_WIDTH * 43, FIELD_HEIGHT * 35),
+                            text=f'Level: {self.app.tetris.level}', fgcolor='white',
+                            size=TILE_SIZE * 1)
+
         
 
 
@@ -55,11 +71,19 @@ class Tetris:
         }
         self.font = ft.Font(None, 40)
 
+        
+
         self.over = False
+        self.level = 0
+        self.speed = ANIMATION_TIME
 
     def get_score(self):
         self.score += self.points_per_lines[self.full_lines]
         self.full_lines = 0
+
+        self.level = self.score // 500
+        self.speed = max(50, ANIMATION_TIME - self.level * 50) 
+        self.app.set_timer(self.speed)
 
     def check_full_lines(self):
         #start at bottom
@@ -108,10 +132,7 @@ class Tetris:
             self.tetromino.rotation()
         elif pressed_arrows == pg.K_ESCAPE:
             self.app.game_paused()
-        # elif pressed_arrows == pg.K_SPACE:
-        #     self.__init__(self.app)
-        # elif pressed_arrows == pg.KEYDOWN and self.game_over() == True:
-        #     self.__init__(self.app)
+        
         
 
     def check_reach_bottom(self):
@@ -134,17 +155,14 @@ class Tetris:
 
     def check_game_over(self):
         if self.tetromino.blocks[0].position.y == INIT_OFFSET[1]:
-            # self.font.render_to(self.app.screen, (FIELD_WIDTH * 40, FIELD_HEIGHT * 40),
-            #                                 text='GAME OVER FDP', fgcolor='white',
-            #                                 size=TILE_SIZE * 2, bgcolor = 'black')
-            Tetris.db_handler.insertScore(self.score)
 
-            # self.app.over = True
+            
+            Tetris.db_handler.insertScore(self.score)
+            
+
             return True
 
-            # event = pg.event.wait()
-            # if event.type == pg.KEYDOWN:
-            #     return True
+           
             
 
     def update(self):
@@ -162,14 +180,6 @@ class Tetris:
     
 
     def reset(self):
-        # self.field_array = self.set_field_array()
-        # self.sprite_group = pg.sprite.Group()
-        # self.tetromino = Tetromino(self)
-        # self.next_tetromino = Tetromino(self, current=False)
-
-        # self.score = 0
-        # self.full_lines = 0
-        # self.over = False
         self.__init__(self.app)
 
 
