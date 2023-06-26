@@ -133,8 +133,7 @@ class Tetris:
             # self.font.render_to(self.app.screen, (FIELD_WIDTH * 40, FIELD_HEIGHT * 40),
             #                                 text='GAME OVER FDP', fgcolor='white',
             #                                 size=TILE_SIZE * 2, bgcolor = 'black')
-            #Tetris.db_handler.insertScore(self.score)
-
+            Tetris.db_handler.insertScore(self.score)
             # self.app.over = True
             return True
 
