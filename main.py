@@ -56,7 +56,8 @@ class App:
     def game_paused(self):
         
         paused = True
-
+        
+        pg.mixer.music.stop()
         game_over_screen_fade = pg.Surface(WINDOW_RESOLUTION)
         game_over_screen_fade.fill((0, 0, 0))
         game_over_screen_fade.set_alpha(90)
@@ -79,14 +80,19 @@ class App:
                 elif event.type == pg.KEYDOWN:
                     if event.key == pg.K_ESCAPE:
                         paused = False
+                        pg.mixer.music.play(-1)
+                        pg.mixer.music.set_volume(0.2)
                         
             self.clock.tick(5)
+            
+
         
 
     def game_over(self):
 
         over = True
-
+        
+        pg.mixer.music.stop()
         game_over_screen_fade = pg.Surface(WINDOW_RESOLUTION)
         game_over_screen_fade.fill((0, 0, 0))
         game_over_screen_fade.set_alpha(90)
@@ -111,9 +117,12 @@ class App:
                 elif event.type == pg.KEYDOWN:
                     if event.key == pg.K_SPACE:
                         over = False
+                        pg.mixer.music.play(-1)
+                        pg.mixer.music.set_volume(0.2)
                         self.tetris.reset()
                         
             self.clock.tick(5)
+
             
             
     def check_events(self):
@@ -133,17 +142,21 @@ class App:
 
             elif event.type == self.user_event:
                 self.anim_trigger = True
+                
         
 
 
     def run(self):
         while True:
             self.check_events()
+            
             if not self.over:
                 self.update()
                 self.draw()
+                
             else: 
                 self.game_over()
+            
 
     # def laod_images(self):
     #     files = [file for file in pathlib.Path(SPRITE_PATH).rglob('*.png') if file.is_file()]
