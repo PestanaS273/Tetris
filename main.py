@@ -14,7 +14,9 @@ class App:
         pg.display.set_caption('Tetris')
         self.screen = pg.display.set_mode(WINDOW_RESOLUTION)
         self.clock = pg.time.Clock()
-        self.set_timer()
+
+        # self.set_timer()
+        
         self.images = self.load_images()
         self.tetris = Tetris(self)
         pg.mixer.music.load('assets/music_and_sounds/Original-Tetris-theme-Tetris-Soundtrack-.mp3')
@@ -28,14 +30,24 @@ class App:
         self.paused = False
         self.over = False
         self.start = False
+        self.level = 0
+        self.set_timer(ANIMATION_TIME)
         
 
 
-    #Set animation time
-    def set_timer(self):
+    #Set animation time original
+    # def set_timer(self):
+    #     self.user_event = pg.USEREVENT + 0
+    #     self.anim_trigger= False
+    #     pg.time.set_timer(self.user_event, ANIMATION_TIME)
+
+    def set_timer(self, time):
         self.user_event = pg.USEREVENT + 0
         self.anim_trigger= False
-        pg.time.set_timer(self.user_event, ANIMATION_TIME)
+        pg.time.set_timer(self.user_event, time)
+
+        
+        
 
     def update(self):
         self.tetris.update()
@@ -106,6 +118,8 @@ class App:
                         self.start = True
                         pg.mixer.music.play(-1)
                         pg.mixer.music.set_volume(0.2)
+                    if event.type == pg.K_2:
+                        pass
                     
             self.clock.tick(5)
 
