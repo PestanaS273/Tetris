@@ -39,6 +39,7 @@ TETROMINOES = {
 }
 
 SPRITE_PATH = 'assets/sprites'
+FONT_PATH = 'assets/fonts/pixeloid-font/PixeloidMono-d94EV.ttf'
 
 
 NEXT_TETROMINO_POSITION = vec(FIELD_WIDTH * 1.3, FIELD_HEIGHT * 0.15)

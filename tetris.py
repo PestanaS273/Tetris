@@ -6,30 +6,28 @@ from Data.database_handler import database_handler
 
 class Text:
     def __init__(self, app):
-        self.font = ft.Font(None, 40)
+        self.font = ft.Font(FONT_PATH)
         self.app = app
     
     
     def draw(self):
-        #Text
-        # self.next_surface = self.title_font.render("Next", True, (255, 255, 255))
-        # self.screen.blit(self.next_surface, (500, 18, 1, 1))
+
+
         self.font.render_to(self.app.screen, (FIELD_WIDTH * 46, FIELD_HEIGHT * 0.6),
                             text='Next', fgcolor='white',
                             size=TILE_SIZE * 1.65, bgcolor = 'black')
+
+
         # self.font.render("Next", True, (255, 255, 255))
         self.font.render_to(self.app.screen, (FIELD_WIDTH * 48, FIELD_HEIGHT * 20),
                             text=f'{self.app.tetris.score}', fgcolor='white',
                             size=TILE_SIZE * 1.8)
-    
-            
         
 
-        
-        # self.score_surface = self.title_font.render("Score:", True, (255, 255, 255))
-        # self.screen.blit(self.score_surface, (500, 300, 1, 1))
-        # self.score_numbers_surface = self.title_font.render(f'{self.app.tetris.score}', True, (255, 255, 255))
-        # self.screen.blit(self.score_numbers_surface, (500, 350, 1, 1))
+
+    def set_font_size(self, size):
+        self.font_size = size
+        self.font = pg.font.Font(None, self.font_size)
 
 class Tetris:
 
@@ -52,7 +50,8 @@ class Tetris:
             4: 500,
         }
         self.font = ft.Font(None, 40)
-        self.app = app
+
+        self.over = False
 
     def get_score(self):
         self.score += self.points_per_lines[self.full_lines]
@@ -85,9 +84,6 @@ class Tetris:
             
                 
         
-       
-            
-
     #set blocs occuped in the field by tetrominoes
     def set_tetrominoes_in_array(self):
         for block in self.tetromino.blocks:
@@ -106,6 +102,10 @@ class Tetris:
             self.tetromino.move(direction='down')
         elif pressed_arrows == pg.K_UP :
             self.tetromino.rotation()
+        elif pressed_arrows == pg.K_ESCAPE:
+            self.app.game_paused()
+        # elif pressed_arrows == pg.K_SPACE:
+        #     self.__init__(self.app)
         # elif pressed_arrows == pg.KEYDOWN and self.game_over() == True:
         #     self.__init__(self.app)
         
@@ -113,8 +113,8 @@ class Tetris:
     def check_reach_bottom(self):
         #create new tetromino is bottom is reached
         if self.tetromino.bottom:
-            if self.game_over():
-                self.__init__(self.app)
+            if self.check_game_over():
+                self.app.game_over()
             else:
                 self.set_tetrominoes_in_array()
                 self.next_tetromino.current = True
@@ -128,15 +128,19 @@ class Tetris:
                 pg.draw.rect(self.app.screen, 'black',
                              (x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE), 1)
 
-    def game_over(self):
+    def check_game_over(self):
         if self.tetromino.blocks[0].position.y == INIT_OFFSET[1]:
             # self.font.render_to(self.app.screen, (FIELD_WIDTH * 40, FIELD_HEIGHT * 40),
             #                                 text='GAME OVER FDP', fgcolor='white',
             #                                 size=TILE_SIZE * 2, bgcolor = 'black')
             #Tetris.db_handler.insertScore(self.score)
-            event = pg.event.wait()
-            if event.type == pg.KEYDOWN:
-                return True
+
+            # self.app.over = True
+            return True
+
+            # event = pg.event.wait()
+            # if event.type == pg.KEYDOWN:
+            #     return True
             
 
     def update(self):
@@ -150,4 +154,18 @@ class Tetris:
     def draw(self):
         self.grid()
         self.sprite_group.draw(self.app.screen)
+
+    
+
+    def reset(self):
+        # self.field_array = self.set_field_array()
+        # self.sprite_group = pg.sprite.Group()
+        # self.tetromino = Tetromino(self)
+        # self.next_tetromino = Tetromino(self, current=False)
+
+        # self.score = 0
+        # self.full_lines = 0
+        # self.over = False
+        self.__init__(self.app)
+
 

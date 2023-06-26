@@ -22,6 +22,11 @@ class App:
         self.text = Text(self)
 
 
+        self.paused = False
+        self.over = False
+        
+
+
     #Set animation time
     def set_timer(self):
         self.user_event = pg.USEREVENT + 0
@@ -39,14 +44,73 @@ class App:
         self.screen.fill(color=FIELD_COLOR, rect=(0,0, *FIELD_RESOLUTION))
         self.screen.fill(color=NEXT_TETROMINO_COLOR, rect=(450, 75, 170, 170))
 
+
         self.tetris.draw()
         self.text.draw()
         pg.display.flip()
 
 
+    def game_paused(self):
+        
+        paused = True
 
+        game_over_screen_fade = pg.Surface(WINDOW_RESOLUTION)
+        game_over_screen_fade.fill((0, 0, 0))
+        game_over_screen_fade.set_alpha(90)
+        self.screen.blit(game_over_screen_fade, (0, 0))
 
+        self.text.font.render_to(self.screen, (FIELD_WIDTH* 5, FIELD_HEIGHT* 5),
+                            text="GAME PAUSED", fgcolor='white',
+                            size=TILE_SIZE * 2, bgcolor=(0,0,0))
+        
+        self.text.font.render_to(self.screen, (FIELD_WIDTH* 12, FIELD_HEIGHT* 20),
+                            text="Press esc to continue", fgcolor='white',
+                            size=TILE_SIZE * 1, bgcolor=(0,0,0))
+        pg.display.update()
+        
+        while paused:
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    pg.quit()
+                    sys.exit()
+                elif event.type == pg.KEYDOWN:
+                    if event.key == pg.K_ESCAPE:
+                        paused = False
+                        
+            self.clock.tick(5)
+        
 
+    def game_over(self):
+
+        over = True
+
+        game_over_screen_fade = pg.Surface(WINDOW_RESOLUTION)
+        game_over_screen_fade.fill((0, 0, 0))
+        game_over_screen_fade.set_alpha(90)
+        self.screen.blit(game_over_screen_fade, (0, 0))
+
+        self.text.font.render_to(self.screen, (FIELD_WIDTH* 5, FIELD_HEIGHT* 5),
+                            text="GAMEOVER", fgcolor='white',
+                            size=TILE_SIZE * 2, bgcolor=(0,0,0))
+        
+        self.text.font.render_to(self.screen, (FIELD_WIDTH* 8, FIELD_HEIGHT* 20),
+                            text="Press space to start a new game", fgcolor='white',
+                            size=TILE_SIZE * 0.90, bgcolor=(0,0,0))
+        pg.display.update()
+        
+        while over:
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    pg.quit()
+                    sys.exit()
+                elif event.type == pg.KEYDOWN:
+                    if event.key == pg.K_SPACE:
+                        over = False
+                        self.tetris.reset()
+                        
+            self.clock.tick(5)
+            
+            
     def check_events(self):
         self.anim_trigger = False
         for event in pg.event.get():
@@ -55,6 +119,13 @@ class App:
                 sys.exit()
             elif event.type == pg.KEYDOWN:
                 self.tetris.controls(pressed_arrows=event.key)
+                # if self.over and event.key == pg.K_ESCAPE:
+                #     self.over = False
+                #     self.tetris.reset()
+                # elif not self.over:
+                    
+
+
             elif event.type == self.user_event:
                 self.anim_trigger = True
         
@@ -63,8 +134,11 @@ class App:
     def run(self):
         while True:
             self.check_events()
-            self.update()
-            self.draw()
+            if not self.over:
+                self.update()
+                self.draw()
+            else: 
+                self.game_over()
 
     # def laod_images(self):
     #     files = [file for file in pathlib.Path(SPRITE_PATH).rglob('*.png') if file.is_file()]
