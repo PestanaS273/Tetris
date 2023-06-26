@@ -21,6 +21,7 @@ class App:
         pg.mixer.music.play(-1)
         pg.mixer.music.set_volume(0.2)
         self.text = Text(self)
+        
         db_handler = database_handler("database.db")
 
 
@@ -95,9 +96,7 @@ class App:
                             text="GAMEOVER", fgcolor='white',
                             size=TILE_SIZE * 2, bgcolor=(0,0,0))
         
-        self.text.font.render_to(self.screen, (FIELD_WIDTH* 5, FIELD_HEIGHT* 5),
-                            text=Tetris.db_handler.getHighScore(), fgcolor='white',
-                            size=TILE_SIZE * 2, bgcolor=(0,0,0))
+        
         
         self.text.font.render_to(self.screen, (FIELD_WIDTH* 8, FIELD_HEIGHT* 20),
                             text="Press space to start a new game", fgcolor='white',

@@ -8,6 +8,8 @@ class Text:
     def __init__(self, app):
         self.font = ft.Font(FONT_PATH)
         self.app = app
+
+        db_handler = database_handler("database.db")
     
     
     def draw(self):
@@ -22,6 +24,10 @@ class Text:
         self.font.render_to(self.app.screen, (FIELD_WIDTH * 48, FIELD_HEIGHT * 20),
                             text=f'{self.app.tetris.score}', fgcolor='white',
                             size=TILE_SIZE * 1.8)
+        
+        self.font.render_to(self.app.screen, (FIELD_WIDTH* 60, FIELD_HEIGHT* 20),
+                            text=Tetris.db_handler.getHighScore(), fgcolor='white',
+                            size=TILE_SIZE * 1.1, bgcolor=(0,0,0))
         
 
 
