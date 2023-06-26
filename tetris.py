@@ -29,6 +29,7 @@ class Text:
                             text=f'{self.app.tetris.score}', fgcolor='white',
                             size=TILE_SIZE * 1.8)
         
+
         self.font.render_to(self.app.screen, (FIELD_WIDTH * 40, FIELD_HEIGHT * 28),
                             text='Highest Score', fgcolor='white',
                             size=TILE_SIZE * 0.80, bgcolor = 'black')
@@ -40,6 +41,7 @@ class Text:
         self.font.render_to(self.app.screen, (FIELD_WIDTH * 43, FIELD_HEIGHT * 35),
                             text=f'Level: {self.app.tetris.level}', fgcolor='white',
                             size=TILE_SIZE * 1)
+
         
 
 
@@ -153,9 +155,11 @@ class Tetris:
 
     def check_game_over(self):
         if self.tetromino.blocks[0].position.y == INIT_OFFSET[1]:
+
             
             Tetris.db_handler.insertScore(self.score)
             
+
             return True
 
            

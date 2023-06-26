@@ -170,12 +170,13 @@ class App:
         game_over_screen_fade.set_alpha(90)
         self.screen.blit(game_over_screen_fade, (0, 0))
 
+
         self.text.font.render_to(self.screen, (FIELD_WIDTH* 10, FIELD_HEIGHT* 10),
                             text="GAMEOVER", fgcolor='white',
                             size=TILE_SIZE * 2, bgcolor=(0,0,0))
         
         
-        
+
         self.text.font.render_to(self.screen, (FIELD_WIDTH* 6, FIELD_HEIGHT* 30),
                             text="Press space to start a new game", fgcolor='white',
                             size=TILE_SIZE * 0.70, bgcolor=(0,0,0))
