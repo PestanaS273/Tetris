@@ -9,7 +9,6 @@ class Text:
         self.font = ft.Font(FONT_PATH)
         self.app = app
 
-        db_handler = database_handler("database.db")
     
     
     def draw(self):
@@ -21,13 +20,22 @@ class Text:
 
 
         # self.font.render("Next", True, (255, 255, 255))
-        self.font.render_to(self.app.screen, (FIELD_WIDTH * 48, FIELD_HEIGHT * 20),
+
+        self.font.render_to(self.app.screen, (FIELD_WIDTH * 42, FIELD_HEIGHT * 15),
+                            text='Score', fgcolor='white',
+                            size=TILE_SIZE * 1.65, bgcolor = 'black')
+        
+        self.font.render_to(self.app.screen, (FIELD_WIDTH * 50, FIELD_HEIGHT * 20),
                             text=f'{self.app.tetris.score}', fgcolor='white',
                             size=TILE_SIZE * 1.8)
         
-        self.font.render_to(self.app.screen, (FIELD_WIDTH* 60, FIELD_HEIGHT* 20),
+        self.font.render_to(self.app.screen, (FIELD_WIDTH * 40, FIELD_HEIGHT * 28),
+                            text='Highest Score', fgcolor='white',
+                            size=TILE_SIZE * 0.80, bgcolor = 'black')
+        
+        self.font.render_to(self.app.screen, (FIELD_WIDTH* 48, FIELD_HEIGHT* 30),
                             text=Tetris.db_handler.getHighScore(), fgcolor='white',
-                            size=TILE_SIZE * 1.1, bgcolor=(0,0,0))
+                            size=TILE_SIZE * 1.1)
         
 
 

@@ -66,9 +66,9 @@ class App:
                             text="GAME PAUSED", fgcolor='white',
                             size=TILE_SIZE * 2, bgcolor=(0,0,0))
         
-        self.text.font.render_to(self.screen, (FIELD_WIDTH* 12, FIELD_HEIGHT* 20),
+        self.text.font.render_to(self.screen, (FIELD_WIDTH* 12, FIELD_HEIGHT* 30),
                             text="Press esc to continue", fgcolor='white',
-                            size=TILE_SIZE * 1, bgcolor=(0,0,0))
+                            size=TILE_SIZE * 0.70, bgcolor=(0,0,0))
         pg.display.update()
         
         while paused:
@@ -92,15 +92,15 @@ class App:
         game_over_screen_fade.set_alpha(90)
         self.screen.blit(game_over_screen_fade, (0, 0))
 
-        self.text.font.render_to(self.screen, (FIELD_WIDTH* 5, FIELD_HEIGHT* 5),
+        self.text.font.render_to(self.screen, (FIELD_WIDTH* 10, FIELD_HEIGHT* 10),
                             text="GAMEOVER", fgcolor='white',
                             size=TILE_SIZE * 2, bgcolor=(0,0,0))
         
         
         
-        self.text.font.render_to(self.screen, (FIELD_WIDTH* 8, FIELD_HEIGHT* 20),
+        self.text.font.render_to(self.screen, (FIELD_WIDTH* 6, FIELD_HEIGHT* 30),
                             text="Press space to start a new game", fgcolor='white',
-                            size=TILE_SIZE * 0.90, bgcolor=(0,0,0))
+                            size=TILE_SIZE * 0.70, bgcolor=(0,0,0))
         pg.display.update()
         
         while over:
