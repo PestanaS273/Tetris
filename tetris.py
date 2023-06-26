@@ -23,6 +23,10 @@ class Text:
                             text=f'{self.app.tetris.score}', fgcolor='white',
                             size=TILE_SIZE * 1.8)
         
+        self.font.render_to(self.app.screen, (FIELD_WIDTH* 60, FIELD_HEIGHT* 20),
+                            text=Tetris.db_handler.getHighScore(), fgcolor='white',
+                            size=TILE_SIZE * 1.1, bgcolor=(0,0,0))
+        
 
 
     def set_font_size(self, size):
