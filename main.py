@@ -16,7 +16,7 @@ class App:
         self.clock = pg.time.Clock()
 
         self.mode = 0
-        self.start_time = None
+        self.start_time = 0
         # self.set_timer()
         
         self.images = self.load_images()
@@ -26,7 +26,7 @@ class App:
         pg.mixer.music.set_volume(0.2)
         self.text = Text(self)
         
-        db_handler = database_handler("database.db")
+        # db_handler = database_handler("database.db")
 
 
         self.paused = False
