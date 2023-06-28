@@ -218,6 +218,7 @@ class App:
                         pg.mixer.music.set_volume(0.2)
                         
                         self.tetris.reset()
+                        self.start_time = 100 *60*1000
                         
             self.clock.tick(5)
 
